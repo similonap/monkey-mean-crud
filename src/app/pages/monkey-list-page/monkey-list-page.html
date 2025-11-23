@@ -1,8 +1,10 @@
-<div class="monkey-list-container"></div>
+<div class="monkey-list-container">
+    <div class="list-toolbar">
+        <input type="text" placeholder="Search by name..." [(ngModel)]="q" class="search-input" />
+        <a routerLink="/species" class="species-link">View species</a>
+    </div>
 
-<input type="text" placeholder="Search by name..." [(ngModel)]="q" class="search-input" />
-
-<table class="monkey-table">
+    <table class="monkey-table">
     <thead>
         <tr>
             @for (column of tableColumns; track $index) {
@@ -36,4 +38,5 @@
         </tr>
         }
     </tbody>
-</table>
+    </table>
+</div>

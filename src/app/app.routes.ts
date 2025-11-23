@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { MonkeyListPage } from "./pages/monkey-list-page/monkey-list-page";
 import { MonkeyDetailPage } from "./pages/monkey-detail-page/monkey-detail-page";
+import { SpeciesListPage } from "./pages/species-list-page/species-list-page";
 
 export const routes: Routes = [
     {
@@ -16,5 +17,9 @@ export const routes: Routes = [
         path: 'monkeys/:id', 
         component: MonkeyDetailPage 
     },
+    {
+        path: 'species',
+        component: SpeciesListPage
+    }
 
 ];

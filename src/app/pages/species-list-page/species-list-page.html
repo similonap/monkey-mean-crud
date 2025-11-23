@@ -1,0 +1,45 @@
+<div class="species-page">
+  <div class="page-header">
+    <h1>Species Overview</h1>
+    <a routerLink="/monkeys" class="back-link">← Back to monkey list</a>
+  </div>
+
+  @if (loading()) {
+    <p class="status-text">Loading species…</p>
+  } @else if (error()) {
+    <p class="status-text error">{{ error() }}</p>
+  } @else {
+    <table class="species-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Habitat Type</th>
+          <th>Diet</th>
+          <th>Endangerment Status</th>
+          <th>Group Tolerance</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (species of speciesList(); track species.id) {
+          <tr>
+            <td>{{ species.id }}</td>
+            <td>{{ species.name }}</td>
+            <td>{{ species.habitatType }}</td>
+            <td>
+              @if (species.diet?.length) {
+                {{ species.diet.join(', ') }}
+              } @else {
+                Unknown
+              }
+            </td>
+            <td>{{ species.endangermentStatus }}</td>
+            <td>
+              {{ species.groupTolerance.minGroupSize }} - {{ species.groupTolerance.maxGroupSize }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

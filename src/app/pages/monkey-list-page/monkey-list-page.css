@@ -4,6 +4,36 @@
   margin: 0 auto;
 }
 
+.list-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 1rem;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+}
+
+.species-link {
+  text-decoration: none;
+  background-color: #1f7a8c;
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.species-link:hover {
+  background-color: #166173;
+}
+
 h1 {
   text-align: center;
   color: #333;
