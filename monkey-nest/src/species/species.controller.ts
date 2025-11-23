@@ -1,14 +1,14 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { SpeciesService } from "./species.service";
-import { CreateSpeciesDTO, UpdateSpeciesDTO } from "./dto/species.dto";
+import { CreateSpeciesDTO, SpeciesQueryDTO, UpdateSpeciesDTO } from "./dto/species.dto";
 
 @Controller('species')
 export class SpeciesController {
     constructor(private readonly speciesService: SpeciesService) {}
 
     @Get()
-    findAll() {
-        return this.speciesService.findAll();
+    findAll(@Query() {q, sortField, sortOrder}: SpeciesQueryDTO) {
+        return this.speciesService.findAll(q, sortField, sortOrder);
     }
 
     @Get(':id')

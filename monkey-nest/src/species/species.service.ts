@@ -8,22 +8,24 @@ import { CreateSpeciesDTO, UpdateSpeciesDTO } from "./dto/species.dto";
 @Injectable()
 export class SpeciesService {
     constructor(@InjectModel(Species.name) private speciesModel: Model<SpeciesDocument>) { }
-    
-    async findAll(): Promise<Species[]> {
-        return this.speciesModel.find().exec();
+
+    async findAll(q: string = '', sortField: string = 'id', sortOrder: 'asc' | 'desc' = 'asc'): Promise<Species[]> {
+        return this.speciesModel.find(
+            { name: new RegExp(q, 'i') }
+        ).sort({ [sortField]: sortOrder === 'asc' ? 1 : -1 }).lean().exec();
     }
 
     async findOne(id: number): Promise<Species | null> {
         const entry = this.speciesModel.findOne({ id }).lean().exec();
         if (!entry) throw new NotFoundException('Item not found');
-        return entry;   
+        return entry;
     }
 
 
     async create(dto: CreateSpeciesDTO): Promise<Species> {
         const last = await this.speciesModel.findOne({}, { id: 1 }).sort({ id: -1 }).lean().exec();
         const nextId = last?.id ? Number(last.id) + 1 : 1;
-        
+
         const toCreate = { ...dto, id: nextId } as Species;
         const created = await this.speciesModel.create(toCreate);
         return created.toObject() as Species;

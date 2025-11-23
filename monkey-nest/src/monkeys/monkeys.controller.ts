@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { MonkeysService } from "./monkeys.service";
-import { CreateMonkeyDTO, UpdateMonkeyDTO } from "./dto/monkey.dto";
+import { CreateMonkeyDTO, MonkeyQueryDTO, UpdateMonkeyDTO } from "./dto/monkey.dto";
 
 @Controller('monkeys')
 export class MonkeysController {
@@ -10,8 +10,8 @@ export class MonkeysController {
     }
 
     @Get()
-    findAll() {
-        return this.monkeysService.findAll();
+    findAll(@Query() {q, sortField, sortOrder}: MonkeyQueryDTO) {
+        return this.monkeysService.findAll(q, sortField, sortOrder);
     }
 
     @Get(':id')

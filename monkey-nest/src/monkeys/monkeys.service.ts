@@ -8,13 +8,14 @@ import { Species, SpeciesDocument } from "src/species/species.schema";
 @Injectable()
 export class MonkeysService {
 
-    
     constructor(@InjectModel(Monkey.name) private monkeyModel: Model<MonkeyDocument>,
             @InjectModel(Species.name) private speciesModel: Model<SpeciesDocument>,
     ) { }
 
-    async findAll(): Promise<Monkey[]> {
-        return this.monkeyModel.find().populate("species").exec();
+    async findAll(q: string = '', sortField: string = 'id', sortOrder: 'asc' | 'desc' = 'asc'): Promise<Monkey[]> {
+        return this.monkeyModel.find(
+            { name: new RegExp(q, 'i') }
+        ).populate("species").sort({ [sortField]: sortOrder === 'asc' ? 1 : -1 }).lean().exec();
     }
 
     async findOne(id: number): Promise<Monkey | null> {

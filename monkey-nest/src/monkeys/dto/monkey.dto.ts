@@ -30,3 +30,14 @@ export class CreateMonkeyDTO {
 export class UpdateMonkeyDTO extends PartialType(CreateMonkeyDTO) {
     species_id?: number;
 }
+
+export class MonkeyQueryDTO {
+    @ApiProperty({ required: false })
+    q?: string;
+
+    @ApiProperty({ required: false, default: 'id' })
+    sortField?: string;
+
+    @ApiProperty({ required: false, default: 'asc', enum: ['asc', 'desc'] })
+    sortOrder?: 'asc' | 'desc';
+}

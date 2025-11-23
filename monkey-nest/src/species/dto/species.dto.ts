@@ -21,3 +21,14 @@ export class CreateSpeciesDTO {
 }
 
 export class UpdateSpeciesDTO extends PartialType(CreateSpeciesDTO) {}
+
+export class SpeciesQueryDTO {
+    @ApiProperty({ required: false })
+    q?: string;
+
+    @ApiProperty({ required: false, default: 'id' })
+    sortField?: string;
+
+    @ApiProperty({ required: false, default: 'asc', enum: ['asc', 'desc'] })
+    sortOrder?: 'asc' | 'desc';
+}
