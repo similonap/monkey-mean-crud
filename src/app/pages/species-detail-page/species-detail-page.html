@@ -1,65 +1,132 @@
 <div class="species-detail-container">
-  @if (loading()) {
-    <div class="status-text">Loading species…</div>
-  } @else if (error()) {
-    <div class="status-text error">{{ error() }}</div>
-  } @else if (species(); as species) {
-    <div class="detail-header">
-      <button class="back-button" (click)="goBack()">← Back to species list</button>
-      <div>
-        <h1>{{ species.name }}</h1>
-        <p class="subtitle">Habitat: {{ species.habitatType }}</p>
-      </div>
-      <span class="status-pill">{{ species.endangermentStatus }}</span>
+  <div class="detail-header">
+    <button class="back-button">← Back to species list</button>
+
+    <div>
+      <h1>Gorilla</h1>
+      <p class="subtitle">Habitat: City</p>
     </div>
 
-    <div class="detail-content">
-      <div class="info-grid">
-        <div class="info-item">
-          <label>ID</label>
-          <span>{{ species.id }}</span>
-        </div>
+    <span class="status-pill">EN</span>
+  </div>
 
-        <div class="info-item">
-          <label>Habitat Type</label>
-          <span>{{ species.habitatType }}</span>
-        </div>
+  <div class="detail-content">
 
-        <div class="info-item">
-          <label>Endangerment Status</label>
-          <span>{{ species.endangermentStatus }}</span>
-        </div>
+    <div class="info-grid">
 
-        @if (species.groupTolerance; as groupTolerance) {
-            <div class="info-item">
-            <label>Group Min Size</label>
-            <span>{{ groupTolerance.minGroupSize }}</span>
-            </div>
-
-            <div class="info-item">
-            <label>Group Max Size</label>
-            <span>{{ groupTolerance.maxGroupSize }}</span>
-            </div>
-        }
-
-        @if (species.diet; as diet) {
-            <div class="info-item full-width">
-                <label>Diet</label>
-                <span>
-                    @if (diet.length) {
-                    {{ diet.join(', ') }}
-                    } @else {
-                    Unknown
-                    }
-                </span>
-            </div>
-        }
-
-        @if (species.monkeys && species.monkeys.length > 0) {
-            <app-monkey-list
-                [monkeys]="species.monkeys"/>
-        }
+      <div class="info-item">
+        <label>ID</label>
+        <span>1</span>
       </div>
+
+      <div class="info-item">
+        <label>Habitat Type</label>
+        <span>City</span>
+      </div>
+
+      <div class="info-item">
+        <label>Endangerment Status</label>
+        <span>EN</span>
+      </div>
+
+      <div class="info-item">
+        <label>Group Min Size</label>
+        <span>3</span>
+      </div>
+
+      <div class="info-item">
+        <label>Group Max Size</label>
+        <span>10</span>
+      </div>
+
+      <div class="info-item full-width">
+        <label>Diet</label>
+        <span>Leaves, Fruits, Bark</span>
+      </div>
+
     </div>
-  }
+
+    <table class="monkey-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Species</th>
+          <th>Country</th>
+          <th>Gender</th>
+          <th>Weight (Kg)</th>
+          <th>Height (Cm)</th>
+          <th>Year</th>
+          <th>Likes</th>
+          <th>Personality</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr class="clickable-row" tabindex="0">
+          <td>
+            <img
+              class="monkey-image"
+              src="https://raw.githubusercontent.com/similonap/json/refs/heads/master/monkeys/images/Lila.png"
+              alt="Loola"
+            >
+          </td>
+          <td>5</td>
+          <td>Loola</td>
+          <td>Unknown</td>
+          <td>Rwanda</td>
+          <td>Female</td>
+          <td>130</td>
+          <td>163</td>
+          <td>2012</td>
+          <td>100</td>
+          <td>Caring</td>
+        </tr>
+
+        <tr class="clickable-row" tabindex="0">
+          <td>
+            <img
+              class="monkey-image"
+              src="https://raw.githubusercontent.com/similonap/json/refs/heads/master/monkeys/images/Nala.png"
+              alt="Nala"
+            >
+          </td>
+          <td>9</td>
+          <td>Nala</td>
+          <td>Unknown</td>
+          <td>Democratic Republic of Congo</td>
+          <td>Female</td>
+          <td>140</td>
+          <td>165</td>
+          <td>2013</td>
+          <td>210</td>
+          <td>Leader</td>
+        </tr>
+
+        <tr class="clickable-row" tabindex="0">
+          <td>
+            <img
+              class="monkey-image"
+              src="https://raw.githubusercontent.com/similonap/json/refs/heads/master/monkeys/images/Bongo.png"
+              alt="Bongo"
+            >
+          </td>
+          <td>2</td>
+          <td>Bongo</td>
+          <td>Unknown</td>
+          <td>Uganda</td>
+          <td>Male</td>
+          <td>150</td>
+          <td>170</td>
+          <td>2015</td>
+          <td>0</td>
+          <td>Gentle</td>
+        </tr>
+
+      </tbody>
+    </table>
+
+  </div>
 </div>

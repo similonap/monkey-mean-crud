@@ -1,7 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { MonkeyFormComponent, MonkeyFormValue } from '../../components/monkey-form/monkey-form.component';
-import { CreateMonkeyPayload, Monkey, Species } from '../../models/monkey.model';
 import { MonkeyApiService } from '../../services/monkey-api';
 
 @Component({

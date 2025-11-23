@@ -1,18 +1,170 @@
 <div class="monkey-list-container">
-    <div class="list-toolbar">
-        <input type="text" placeholder="Search by name..." [(ngModel)]="q" class="search-input" />
-        <div class="toolbar-actions">
-            <a routerLink="/species" class="species-link">View species</a>
-            <a routerLink="/monkeys/new" class="primary-link">Add monkey</a>
-        </div>
-    </div>
+  <div class="list-toolbar">
+    <input type="text" placeholder="Search by name..." class="search-input">
 
-    <app-monkey-list
-      [monkeys]="monkeys()"
-      [sortDirection]="sortDirection()"
-      [sortField]="sortField()"
-      [tableColumns]="tableColumns"
-      (onSort)="sortChange($event)"
-    ></app-monkey-list>
-        
+    <div class="toolbar-actions">
+      <a href="/species" class="species-link">View species</a>
+      <a href="/monkeys/new" class="primary-link">Add monkey</a>
+    </div>
+  </div>
+
+  <table class="monkey-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th class="sortable-header">Id <span class="sort-indicator">▲</span></th>
+        <th class="sortable-header">Name</th>
+        <th>Species</th>
+        <th class="sortable-header">Country</th>
+        <th class="sortable-header">Gender</th>
+        <th class="sortable-header">Weight (Kg)</th>
+        <th class="sortable-header">Height (Cm)</th>
+        <th class="sortable-header">Year</th>
+        <th class="sortable-header">Likes</th>
+        <th class="sortable-header">Personality</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr class="clickable-row" tabindex="0">
+        <td><img class="monkey-image" src="https://raw.githubusercontent.com/similonap/json/refs/heads/master/monkeys/images/Kiki.png" alt="Kiko"></td>
+        <td>1</td>
+        <td>Kiko</td>
+        <td>Vervet Monkey</td>
+        <td>Brazil</td>
+        <td>Female</td>
+        <td>3.9</td>
+        <td>38</td>
+        <td>2019</td>
+        <td>7</td>
+        <td>Curious</td>
+      </tr>
+
+      <tr class="clickable-row" tabindex="0">
+        <td><img class="monkey-image" src="https://raw.githubusercontent.com/similonap/json/refs/heads/master/monkeys/images/Bongo.png" alt="Bongo"></td>
+        <td>2</td>
+        <td>Bongo</td>
+        <td>Gorilla</td>
+        <td>Uganda</td>
+        <td>Male</td>
+        <td>150</td>
+        <td>170</td>
+        <td>2015</td>
+        <td>0</td>
+        <td>Gentle</td>
+      </tr>
+
+      <tr class="clickable-row" tabindex="0">
+        <td><img class="monkey-image" src="https://raw.githubusercontent.com/similonap/json/refs/heads/master/monkeys/images/Mimi.png" alt="Mimi"></td>
+        <td>3</td>
+        <td>Mimi</td>
+        <td>Vervet Monkey</td>
+        <td>Kenya</td>
+        <td>Female</td>
+        <td>5.2</td>
+        <td>50</td>
+        <td>2021</td>
+        <td>0</td>
+        <td>Playful</td>
+      </tr>
+
+      <tr class="clickable-row" tabindex="0">
+        <td><img class="monkey-image" src="https://raw.githubusercontent.com/similonap/json/refs/heads/master/monkeys/images/Paco.png" alt="Paco"></td>
+        <td>4</td>
+        <td>Paco</td>
+        <td>Capuchin Monkey</td>
+        <td>Peru</td>
+        <td>Male</td>
+        <td>4.1</td>
+        <td>41</td>
+        <td>2017</td>
+        <td>300</td>
+        <td>Intelligent</td>
+      </tr>
+
+      <tr class="clickable-row" tabindex="0">
+        <td><img class="monkey-image" src="https://raw.githubusercontent.com/similonap/json/refs/heads/master/monkeys/images/Lila.png" alt="Loola"></td>
+        <td>5</td>
+        <td>Loola</td>
+        <td>Gorilla</td>
+        <td>Rwanda</td>
+        <td>Female</td>
+        <td>130</td>
+        <td>163</td>
+        <td>2012</td>
+        <td>100</td>
+        <td>Caring</td>
+      </tr>
+
+      <tr class="clickable-row" tabindex="0">
+        <td><img class="monkey-image" src="https://raw.githubusercontent.com/similonap/json/refs/heads/master/monkeys/images/Zazu.png" alt="Zazu"></td>
+        <td>6</td>
+        <td>Zazu</td>
+        <td>Howler Monkey</td>
+        <td>Costa Rica</td>
+        <td>Male</td>
+        <td>6.7</td>
+        <td>55</td>
+        <td>2018</td>
+        <td>22</td>
+        <td>Vocal</td>
+      </tr>
+
+      <tr class="clickable-row" tabindex="0">
+        <td><img class="monkey-image" src="https://raw.githubusercontent.com/similonap/json/refs/heads/master/monkeys/images/Tika.png" alt="Tika"></td>
+        <td>7</td>
+        <td>Tika</td>
+        <td>Vervet Monkey</td>
+        <td>Tanzania</td>
+        <td>Female</td>
+        <td>4.8</td>
+        <td>48</td>
+        <td>2020</td>
+        <td>58</td>
+        <td>Sneaky</td>
+      </tr>
+
+      <tr class="clickable-row" tabindex="0">
+        <td><img class="monkey-image" src="https://raw.githubusercontent.com/similonap/json/refs/heads/master/monkeys/images/Rolo.png" alt="Rolo"></td>
+        <td>8</td>
+        <td>Rolo</td>
+        <td>Capuchin Monkey</td>
+        <td>Colombia</td>
+        <td>Male</td>
+        <td>3.9</td>
+        <td>39</td>
+        <td>2016</td>
+        <td>145</td>
+        <td>Mimic</td>
+      </tr>
+
+      <tr class="clickable-row" tabindex="0">
+        <td><img class="monkey-image" src="https://raw.githubusercontent.com/similonap/json/refs/heads/master/monkeys/images/Nala.png" alt="Nala"></td>
+        <td>9</td>
+        <td>Nala</td>
+        <td>Gorilla</td>
+        <td>Democratic Republic of Congo</td>
+        <td>Female</td>
+        <td>140</td>
+        <td>165</td>
+        <td>2013</td>
+        <td>210</td>
+        <td>Leader</td>
+      </tr>
+
+      <tr class="clickable-row" tabindex="0">
+        <td><img class="monkey-image" src="https://raw.githubusercontent.com/similonap/json/refs/heads/master/monkeys/images/Mojo.png" alt="Mojo"></td>
+        <td>10</td>
+        <td>Mojo</td>
+        <td>Howler Monkey</td>
+        <td>Panama</td>
+        <td>Male</td>
+        <td>5.5</td>
+        <td>52</td>
+        <td>2022</td>
+        <td>8</td>
+        <td>Adventurous</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

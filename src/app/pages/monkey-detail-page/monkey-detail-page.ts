@@ -1,6 +1,5 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from "@angular/router";
-import { Monkey } from "../../models/monkey.model";
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
 import { MonkeyApiService } from "../../services/monkey-api";
 
 @Component({

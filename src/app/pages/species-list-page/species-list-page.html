@@ -1,45 +1,68 @@
 <div class="species-page">
   <div class="page-header">
     <h1>Species Overview</h1>
-    <a routerLink="/monkeys" class="back-link">← Back to monkey list</a>
+    <a class="back-link" href="/monkeys">← Back to monkey list</a>
   </div>
 
-  @if (loading()) {
-    <p class="status-text">Loading species…</p>
-  } @else if (error()) {
-    <p class="status-text error">{{ error() }}</p>
-  } @else {
-    <table class="species-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Habitat Type</th>
-          <th>Diet</th>
-          <th>Endangerment Status</th>
-          <th>Group Tolerance</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (species of speciesList(); track species.id) {
-          <tr class="species-row" [routerLink]="['/species', species.id]">
-            <td>{{ species.id }}</td>
-            <td>{{ species.name }}</td>
-            <td>{{ species.habitatType }}</td>
-            <td>
-              @if (species.diet && species.diet.length) {
-                {{ species.diet.join(', ') }}
-              } @else {
-                Unknown
-              }
-            </td>
-            <td>{{ species.endangermentStatus }}</td>
-            <td>
-              {{ species.groupTolerance.minGroupSize }} - {{ species.groupTolerance.maxGroupSize }}
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  }
+  <table class="species-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Habitat Type</th>
+        <th>Diet</th>
+        <th>Endangerment Status</th>
+        <th>Group Tolerance</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr class="species-row" tabindex="0">
+        <td>1</td>
+        <td>Gorilla</td>
+        <td>City</td>
+        <td>Leaves, Fruits, Bark</td>
+        <td>EN</td>
+        <td>3 - 10</td>
+      </tr>
+
+      <tr class="species-row" tabindex="0">
+        <td>2</td>
+        <td>Capuchin Monkey</td>
+        <td>Tropical Rainforest</td>
+        <td>Fruits, Seeds, Insects, Eggs</td>
+        <td>LC</td>
+        <td>2 - 30</td>
+      </tr>
+
+      <tr class="species-row" tabindex="0">
+        <td>3</td>
+        <td>Vervet Monkey</td>
+        <td>Savannah</td>
+        <td>Fruits, Leaves, Seeds, Small animals</td>
+        <td>LC</td>
+        <td>3 - 10</td>
+      </tr>
+
+      <tr class="species-row" tabindex="0">
+        <td>4</td>
+        <td>Howler Monkey</td>
+        <td>Tropical Forest</td>
+        <td>Leaves, Fruits, Flowers, Nuts</td>
+        <td>VU</td>
+        <td>4 - 15</td>
+      </tr>
+
+      <tr class="species-row" tabindex="0">
+        <td>5</td>
+        <td>Joskes</td>
+        <td>Aapkes</td>
+        <td>string</td>
+        <td>string</td>
+        <td>5 - 10</td>
+      </tr>
+
+    </tbody>
+  </table>
 </div>
