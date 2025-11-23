@@ -1,0 +1,67 @@
+<div class="monkey-detail-container">
+  @if (loading()) {
+    <div class="loading">Loading...</div>
+  } @else if (error()) {
+    <div class="error">{{ error() }}</div>
+  } @else if (monkey()) {
+    <div class="detail-header">
+      <button class="back-button" (click)="goBack()">← Back to List</button>
+      <h1>{{ monkey()?.name }}</h1>
+    </div>
+
+    <div class="detail-content">
+      <div class="image-section">
+        <img [src]="monkey()?.image" [alt]="monkey()?.name" class="detail-image" />
+      </div>
+
+      <div class="info-section">
+        <div class="info-grid">
+          <div class="info-item">
+            <label>ID:</label>
+            <span>{{ monkey()?.id }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Species:</label>
+            <span>{{ monkey()?.species?.name || 'Unknown' }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Country:</label>
+            <span>{{ monkey()?.country }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Gender:</label>
+            <span>{{ monkey()?.gender }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Weight:</label>
+            <span>{{ monkey()?.weight }} kg</span>
+          </div>
+
+          <div class="info-item">
+            <label>Height:</label>
+            <span>{{ monkey()?.height }} cm</span>
+          </div>
+
+          <div class="info-item">
+            <label>Year:</label>
+            <span>{{ monkey()?.year }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Likes:</label>
+            <span>{{ monkey()?.likes }}</span>
+          </div>
+
+          <div class="info-item full-width">
+            <label>Personality Trait:</label>
+            <span>{{ monkey()?.personality_trait }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

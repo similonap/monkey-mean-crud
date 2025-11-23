@@ -13,8 +13,15 @@ export class MonkeysService {
     ) { }
 
     async findAll(q: string = '', sortField: string = 'id', sortOrder: 'asc' | 'desc' = 'asc'): Promise<Monkey[]> {
-        return this.monkeyModel.find(
-            { name: new RegExp(q, 'i') }
+        console.log(`Finding all monkeys with q=${q}, sortField=${sortField}, sortOrder=${sortOrder}`);
+        const regex = new RegExp(q, 'i');
+        return this.monkeyModel.find({
+            $or: [
+                { name: regex },
+                { country: regex },
+                { personality_trait: regex }
+            ]
+        }
         ).populate("species").sort({ [sortField]: sortOrder === 'asc' ? 1 : -1 }).lean().exec();
     }
 
