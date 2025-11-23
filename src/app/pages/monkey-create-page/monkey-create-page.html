@@ -1,94 +1,12 @@
-<div class="monkey-edit-container">
-  <div class="page-header">
-    <h1>Add Monkey</h1>
-    <a class="back-link" routerLink="/monkeys">← Back to list</a>
-  </div>
-
-  @if (error()) {
-    <div class="status error">{{ error() }}</div>
-  }
-
-  @if (loading()) {
-    <div class="status">Loading required data…</div>
-  } @else {
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="monkey-form">
-      <div class="form-grid">
-        <label for="name">Name</label>
-        <input id="name" type="text" formControlName="name" />
-        @if (form.controls.name.invalid && (form.controls.name.touched || form.controls.name.dirty)) {
-          <div class="field-error">Name is required</div>
-        }
-
-        <label for="species">Species</label>
-        <select id="species" formControlName="species_id">
-          <option value="">Select a species</option>
-          @for (species of speciesList(); track species.id) {
-            <option [ngValue]="species.id">{{ species.name }}</option>
-          }
-        </select>
-        @if (form.controls.species_id.invalid && (form.controls.species_id.touched || form.controls.species_id.dirty)) {
-          <div class="field-error">Species is required</div>
-        }
-
-        <label for="country">Country</label>
-        <input id="country" type="text" formControlName="country" />
-        @if (form.controls.country.invalid && (form.controls.country.touched || form.controls.country.dirty)) {
-          <div class="field-error">Country is required</div>
-        }
-
-        <label for="gender">Gender</label>
-        <input id="gender" type="text" formControlName="gender" />
-        @if (form.controls.gender.invalid && (form.controls.gender.touched || form.controls.gender.dirty)) {
-          <div class="field-error">Gender is required</div>
-        }
-
-        <label for="weight">Weight (kg)</label>
-        <input id="weight" type="number" formControlName="weight" />
-        @if (form.controls.weight.invalid && (form.controls.weight.touched || form.controls.weight.dirty)) {
-          <div class="field-error">Provide a positive weight</div>
-        }
-
-        <label for="height">Height (cm)</label>
-        <input id="height" type="number" formControlName="height" />
-        @if (form.controls.height.invalid && (form.controls.height.touched || form.controls.height.dirty)) {
-          <div class="field-error">Provide a positive height</div>
-        }
-
-        <label for="year">Year</label>
-        <input id="year" type="number" formControlName="year" />
-        @if (form.controls.year.invalid && (form.controls.year.touched || form.controls.year.dirty)) {
-          <div class="field-error">Enter a valid year</div>
-        }
-
-        <label for="likes">Likes</label>
-        <input id="likes" type="number" formControlName="likes" />
-        @if (form.controls.likes.invalid && (form.controls.likes.touched || form.controls.likes.dirty)) {
-          <div class="field-error">Likes must be zero or more</div>
-        }
-
-        <label for="image">Image URL</label>
-        <input id="image" type="url" formControlName="image" />
-        @if (form.controls.image.invalid && (form.controls.image.touched || form.controls.image.dirty)) {
-          <div class="field-error">Image url is required</div>
-        }
-
-        <label for="personality">Personality Trait</label>
-        <input id="personality" type="text" formControlName="personality_trait" />
-        @if (form.controls.personality_trait.invalid && (form.controls.personality_trait.touched || form.controls.personality_trait.dirty)) {
-          <div class="field-error">Personality trait is required</div>
-        }
-
-        <label for="description" class="full-width">Description</label>
-        <textarea id="description" formControlName="description" rows="4" class="full-width"></textarea>
-        @if (form.controls.description.invalid && (form.controls.description.touched || form.controls.description.dirty)) {
-          <div class="field-error full-width">Description is required</div>
-        }
-      </div>
-
-      <div class="form-actions">
-        <button type="submit" [disabled]="form.invalid || saving()">{{ saving() ? 'Creating…' : 'Create monkey' }}</button>
-        <button type="button" class="secondary" (click)="onCancel()" [disabled]="saving()">Cancel</button>
-      </div>
-    </form>
-  }
-</div>
+<app-monkey-form
+  title="Add Monkey"
+  backLabel="← Back to list"
+  submitLabel="Create monkey"
+  [speciesList]="speciesList()"
+  [loading]="loading()"
+  [saving]="saving()"
+  [error]="error()"
+  [initialValue]="initialData"
+  (submitForm)="handleSubmit($event)"
+  (cancel)="onCancel()"
+></app-monkey-form>

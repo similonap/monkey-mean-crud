@@ -1,17 +1,12 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { CreateMonkeyPayload, Species } from '../../models/monkey.model';
+import { Router } from '@angular/router';
+import { MonkeyFormComponent, MonkeyFormValue } from '../../components/monkey-form/monkey-form.component';
+import { CreateMonkeyPayload, Monkey, Species } from '../../models/monkey.model';
 import { MonkeyApiService } from '../../services/monkey-api';
 
 @Component({
   selector: 'app-monkey-create-page',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [MonkeyFormComponent],
   templateUrl: './monkey-create-page.html',
   styleUrl: './monkey-create-page.css',
 })
@@ -23,53 +18,19 @@ export class MonkeyCreatePage implements OnInit {
   loading = signal<boolean>(true);
   saving = signal<boolean>(false);
   error = signal<string | null>(null);
-  private readonly currentYear = new Date().getFullYear();
-
-  readonly form = new FormGroup({
-    name: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    species_id: new FormControl<number | null>(null, {
-      validators: [Validators.required],
-    }),
-    country: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    gender: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    weight: new FormControl<number | null>(null, {
-      validators: [Validators.required, Validators.min(0)],
-    }),
-    height: new FormControl<number | null>(null, {
-      validators: [Validators.required, Validators.min(0)],
-    }),
-    year: new FormControl<number | null>(null, {
-      validators: [
-        Validators.required,
-        Validators.min(1900),
-        Validators.max(this.currentYear),
-      ],
-    }),
-    likes: new FormControl<number | null>(null, {
-      validators: [Validators.required, Validators.min(0)],
-    }),
-    image: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    personality_trait: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    description: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-  });
+  initialData: Partial<Monkey> = {
+    name: '',
+    country: '',
+    gender: '',
+    description: '',
+    image: 'http://localhost:3000/images/monkey-demo-1.jpg',
+    personality_trait: '',
+    likes: 0,
+    year: new Date().getFullYear(),
+    height: 0,
+    weight: 0,
+    species_id: 0,
+  };
 
   ngOnInit(): void {
     this.loadSpecies();
@@ -90,13 +51,8 @@ export class MonkeyCreatePage implements OnInit {
     });
   }
 
-  onSubmit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
-    const payload = this.buildPayload();
+  handleSubmit(value: MonkeyFormValue): void {
+    const payload = this.buildPayload(value);
     this.saving.set(true);
 
     this.monkeyApi.createMonkey(payload).subscribe({
@@ -116,8 +72,7 @@ export class MonkeyCreatePage implements OnInit {
     this.router.navigate(['/monkeys']);
   }
 
-  private buildPayload(): CreateMonkeyPayload {
-    const value = this.form.getRawValue();
+  private buildPayload(value: MonkeyFormValue): CreateMonkeyPayload {
     return {
       name: value.name,
       country: value.country,

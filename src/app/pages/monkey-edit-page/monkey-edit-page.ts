@@ -1,18 +1,13 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { Monkey, Species, UpdateMonkeyPayload } from '../../models/monkey.model';
 import { MonkeyApiService } from '../../services/monkey-api';
+import { MonkeyFormComponent, MonkeyFormValue } from '../../components/monkey-form/monkey-form.component';
 
 @Component({
   selector: 'app-monkey-edit-page',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [MonkeyFormComponent],
   templateUrl: './monkey-edit-page.html',
   styleUrl: './monkey-edit-page.css',
 })
@@ -23,60 +18,14 @@ export class MonkeyEditPage implements OnInit {
 
   monkeyId: number | null = null;
   speciesList = signal<Species[]>([]);
+  monkey = signal<Monkey | null>(null);
   loading = signal<boolean>(true);
   saving = signal<boolean>(false);
   error = signal<string | null>(null);
-  private readonly currentYear = new Date().getFullYear();
 
   readonly detailLink = computed(() =>
     this.monkeyId ? ['/monkeys', this.monkeyId] : ['/monkeys']
   );
-
-  readonly form = new FormGroup({
-    name: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    species_id: new FormControl<number | null>(null, {
-      validators: [Validators.required],
-    }),
-    country: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    gender: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    weight: new FormControl<number | null>(null, {
-      validators: [Validators.required, Validators.min(0)],
-    }),
-    height: new FormControl<number | null>(null, {
-      validators: [Validators.required, Validators.min(0)],
-    }),
-    year: new FormControl<number | null>(null, {
-      validators: [
-        Validators.required,
-        Validators.min(1900),
-        Validators.max(this.currentYear),
-      ],
-    }),
-    likes: new FormControl<number | null>(null, {
-      validators: [Validators.required, Validators.min(0)],
-    }),
-    image: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    personality_trait: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    description: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-  });
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -100,7 +49,7 @@ export class MonkeyEditPage implements OnInit {
     }).subscribe({
       next: ({ monkey, species }) => {
         this.speciesList.set(species);
-        this.patchForm(monkey);
+        this.monkey.set(monkey);
         this.loading.set(false);
       },
       error: (err) => {
@@ -111,30 +60,13 @@ export class MonkeyEditPage implements OnInit {
     });
   }
 
-  private patchForm(monkey: Monkey): void {
-    this.form.patchValue({
-      name: monkey.name,
-      species_id: monkey.species_id ?? monkey.species?.id ?? null,
-      country: monkey.country,
-      gender: monkey.gender,
-      weight: monkey.weight,
-      height: monkey.height,
-      year: monkey.year,
-      likes: monkey.likes,
-      image: monkey.image,
-      personality_trait: monkey.personality_trait,
-      description: monkey.description,
-    });
-  }
-
-  onSubmit(): void {
-    if (this.form.invalid || !this.monkeyId) {
-      this.form.markAllAsTouched();
+  handleSubmit(value: MonkeyFormValue): void {
+    if (!this.monkeyId) {
       return;
     }
 
     this.saving.set(true);
-    const payload = this.buildPayload();
+    const payload = this.buildPayload(value);
 
     this.monkeyApi.updateMonkey(this.monkeyId, payload).subscribe({
       next: () => {
@@ -157,15 +89,14 @@ export class MonkeyEditPage implements OnInit {
     }
   }
 
-  private buildPayload(): UpdateMonkeyPayload {
-    const formValue = this.form.value;
+  private buildPayload(formValue: MonkeyFormValue): UpdateMonkeyPayload {
     return {
-      name: formValue.name ?? undefined,
-      country: formValue.country ?? undefined,
-      gender: formValue.gender ?? undefined,
-      description: formValue.description ?? undefined,
-      image: formValue.image ?? undefined,
-      personality_trait: formValue.personality_trait ?? undefined,
+      name: formValue.name,
+      country: formValue.country,
+      gender: formValue.gender,
+      description: formValue.description,
+      image: formValue.image,
+      personality_trait: formValue.personality_trait,
       likes:
         formValue.likes !== null && formValue.likes !== undefined
           ? Number(formValue.likes)
