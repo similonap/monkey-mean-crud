@@ -1,0 +1,65 @@
+[
+    {
+        "id": 1,
+        "name": "Gorilla",
+        "habitatType": "Forest",
+        "diet": [
+            "Leaves",
+            "Fruits",
+            "Bark"
+        ],
+        "endangermentStatus": "EN",
+        "groupTolerance": {
+            "minGroupSize": 3,
+            "maxGroupSize": 10
+        }
+    },
+    {
+        "id": 2,
+        "name": "Capuchin Monkey",
+        "habitatType": "Tropical Rainforest",
+        "diet": [
+            "Fruits",
+            "Seeds",
+            "Insects",
+            "Eggs"
+        ],
+        "endangermentStatus": "LC",
+        "groupTolerance": {
+            "minGroupSize": 2,
+            "maxGroupSize": 30
+        }
+    },
+    {
+        "id": 3,
+        "name": "Vervet Monkey",
+        "habitatType": "Savannah",
+        "diet": [
+            "Fruits",
+            "Leaves",
+            "Seeds",
+            "Small animals"
+        ],
+        "endangermentStatus": "LC",
+        "groupTolerance": {
+            "minGroupSize": 3,
+            "maxGroupSize": 10
+        }
+    },
+    {
+        "id": 4,
+        "name": "Howler Monkey",
+        "habitatType": "Tropical Forest",
+        "diet": [
+            "Leaves",
+            "Fruits",
+            "Flowers",
+            "Nuts"
+        ],
+        "endangermentStatus": "VU",
+        "groupTolerance": {
+            "minGroupSize": 4,
+            "maxGroupSize": 15
+        }
+    }
+]

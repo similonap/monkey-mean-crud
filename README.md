@@ -1,59 +1,49 @@
-# MonkeyCrud
+# Monkeys CRUD App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.3.
+## Data importeren en referenties aanpassen
 
-## Development server
+We hebben twee bestanden `monkeys.json` en `species.json` die we willen importeren in onze MongoDB database. Er zit een referentie tussen de twee collecties: elke aap heeft een `speciesId` die verwijst naar een document in de `species` collectie. Hoewel de data in json al wel een id heeft, willen we deze niet gebruiken als de `_id` in MongoDB. MongoDB genereert namelijk automatisch een unieke `_id` voor elk document, en we willen deze functionaliteit behouden. 
 
-To start a local development server, run:
+Dit betekent dat we tijdens het importeren de referenties moeten bijwerken zodat ze verwijzen naar de nieuwe `_id` waarden die MongoDB genereert.
 
-```bash
-ng serve
+We kunnen dit op de volgende manier doen:
+
+```sh
+mongoimport \
+  --db=monkey-db \
+  --collection=species \
+  --file=species.json \
+  --jsonArray
+
+mongoimport \
+  --db=monkey-db \
+  --collection=monkeys_raw \
+  --file=monkeys.json \
+  --jsonArray
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Dit importeert de `species` collectie en de `monkeys_raw` collectie. We importeren de apen eerst in een tijdelijke collectie `monkeys_raw` zodat we de referenties kunnen bijwerken.
 
-## Code scaffolding
+Kijk goed hoe de data eruit ziet in `monkeys_raw` en `species` vooraleer je verder gaat. Zorg zeker goed dat je begrijpt waarom we dit doen.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Gebruik nu een `mongo` shell of `compass` om de referenties bij te werken en de data over te zetten naar de uiteindelijke `monkeys` collectie:
 
-```bash
-ng generate component component-name
+```js
+use monkey-db;  
+
+const speciesMap = {};
+db.species.find().forEach(s => {
+  speciesMap[s.id] = s._id;
+});
+
+db.monkeys_raw.find().forEach(m => {
+  db.monkeys.insertOne({
+    ...m,
+    species: speciesMap[m.species_id], // the real reference
+  });
+});
+
+db.monkeys.updateMany({}, { $unset: { species_id: "" } });
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Kijk nu in de `monkeys` collectie om te zien of alles correct is overgezet.
