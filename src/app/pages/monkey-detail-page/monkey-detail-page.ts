@@ -39,4 +39,18 @@ export class MonkeyDetailPage implements OnInit {
   goBack(): void {
     this.router.navigate(['/monkeys']);
   }
+
+  deleteMonkey(): void {
+    const monkey = this.monkey();
+    if (monkey) {
+      this.monkeyApi.deletedMonkey(monkey.id).subscribe({
+        next: () => {
+          this.router.navigate(['/monkeys']);
+        },
+        error: (err) => {
+          this.error.set('Failed to delete monkey');
+        }
+      });
+    }
+  }
 }

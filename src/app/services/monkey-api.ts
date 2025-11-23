@@ -53,6 +53,10 @@ export class MonkeyApiService {
     return this.http.delete<void>(`${this.apiBaseUrl}/species/${id}`);
   }
 
+  deletedMonkey(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiBaseUrl}/monkeys/${id}`);
+  }
+
   private buildParams(params?: EntityQueryParams): HttpParams {
     let httpParams = new HttpParams();
 

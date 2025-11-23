@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { MonkeysService } from "./monkeys.service";
 import { CreateMonkeyDTO, MonkeyQueryDTO, UpdateMonkeyDTO } from "./dto/monkey.dto";
 
@@ -27,6 +27,11 @@ export class MonkeysController {
     @Put(':id')
     update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateMonkeyDTO) {
         return this.monkeysService.update(id, body);
+    }
+
+    @Delete(':id')
+    remove(@Param('id', ParseIntPipe) id: number) {
+        return this.monkeysService.remove(id);
     }
 
 
