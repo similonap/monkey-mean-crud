@@ -22,12 +22,12 @@
       </thead>
       <tbody>
         @for (species of speciesList(); track species.id) {
-          <tr>
+          <tr class="species-row" [routerLink]="['/species', species.id]">
             <td>{{ species.id }}</td>
             <td>{{ species.name }}</td>
             <td>{{ species.habitatType }}</td>
             <td>
-              @if (species.diet?.length) {
+              @if (species.diet && species.diet.length) {
                 {{ species.diet.join(', ') }}
               } @else {
                 Unknown

@@ -1,0 +1,60 @@
+<div class="species-detail-container">
+  @if (loading()) {
+    <div class="status-text">Loading species…</div>
+  } @else if (error()) {
+    <div class="status-text error">{{ error() }}</div>
+  } @else if (species(); as species) {
+    <div class="detail-header">
+      <button class="back-button" (click)="goBack()">← Back to species list</button>
+      <div>
+        <h1>{{ species.name }}</h1>
+        <p class="subtitle">Habitat: {{ species.habitatType }}</p>
+      </div>
+      <span class="status-pill">{{ species.endangermentStatus }}</span>
+    </div>
+
+    <div class="detail-content">
+      <div class="info-grid">
+        <div class="info-item">
+          <label>ID</label>
+          <span>{{ species.id }}</span>
+        </div>
+
+        <div class="info-item">
+          <label>Habitat Type</label>
+          <span>{{ species.habitatType }}</span>
+        </div>
+
+        <div class="info-item">
+          <label>Endangerment Status</label>
+          <span>{{ species.endangermentStatus }}</span>
+        </div>
+
+        @if (species.groupTolerance; as groupTolerance) {
+            <div class="info-item">
+            <label>Group Min Size</label>
+            <span>{{ groupTolerance.minGroupSize }}</span>
+            </div>
+
+            <div class="info-item">
+            <label>Group Max Size</label>
+            <span>{{ groupTolerance.maxGroupSize }}</span>
+            </div>
+        }
+
+        @if (species.diet; as diet) {
+            <div class="info-item full-width">
+                <label>Diet</label>
+                <span>
+                    @if (diet.length) {
+                    {{ diet.join(', ') }}
+                    } @else {
+                    Unknown
+                    }
+                </span>
+            </div>
+        }
+      </div>
+    </div>
+  }
+</div>
