@@ -36,5 +36,4 @@ export const routes: Routes = [
         path: 'species/:id',
         component: SpeciesDetailPage
     }
-
 ];

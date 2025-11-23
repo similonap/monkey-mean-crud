@@ -16,7 +16,6 @@ export class Monkey {
     @Prop({ type: String, required: true })
     description!: string;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Species.name })
     species: Species;
 
     @Prop({ type: String, required: true })
