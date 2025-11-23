@@ -54,6 +54,11 @@
                 </span>
             </div>
         }
+
+        @if (species.monkeys && species.monkeys.length > 0) {
+            <app-monkey-list
+                [monkeys]="species.monkeys"/>
+        }
       </div>
     </div>
   }

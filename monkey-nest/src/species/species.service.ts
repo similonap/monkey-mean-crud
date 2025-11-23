@@ -1,13 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from "@nestjs/mongoose";
-import { Monkey } from "src/monkeys/monkey.schema";
+import { Monkey, MonkeyDocument } from "src/monkeys/monkey.schema";
 import { Species, SpeciesDocument } from "./species.schema";
 import { Model } from "mongoose";
 import { CreateSpeciesDTO, UpdateSpeciesDTO } from "./dto/species.dto";
 
 @Injectable()
 export class SpeciesService {
-    constructor(@InjectModel(Species.name) private speciesModel: Model<SpeciesDocument>) { }
+    constructor(@InjectModel(Species.name) private speciesModel: Model<SpeciesDocument>,
+            @InjectModel(Monkey.name) private monkeysModel: Model<MonkeyDocument>
+    ) { }
 
     async findAll(q: string = '', sortField: string = 'id', sortOrder: 'asc' | 'desc' = 'asc'): Promise<Species[]> {
         return this.speciesModel.find(
@@ -20,7 +22,15 @@ export class SpeciesService {
         if (!entry) throw new NotFoundException('Item not found');
         return entry;
     }
-
+    
+    async findMonkeysBySpecies(id: number): Promise<Monkey[]> {
+        const species = await this.speciesModel.findOne({ id }).exec();
+        if (!species) {
+            throw new NotFoundException('Species not found');
+        }
+        const monkeys = await this.monkeysModel.find({ species: species._id }).lean().exec();
+        return monkeys;
+    }   
 
     async create(dto: CreateSpeciesDTO): Promise<Species> {
         const last = await this.speciesModel.findOne({}, { id: 1 }).sort({ id: -1 }).lean().exec();

@@ -16,6 +16,11 @@ export class SpeciesController {
         return this.speciesService.findOne(id);
     }
 
+    @Get(':id/monkeys')
+    findMonkeysBySpecies(@Param('id', ParseIntPipe) id: number) {
+        return this.speciesService.findMonkeysBySpecies(id);
+    }
+
     @Post()
     create(@Body() dto: CreateSpeciesDTO) {
         return this.speciesService.create(dto);

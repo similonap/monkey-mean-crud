@@ -1,0 +1,35 @@
+<table class="monkey-table">
+    <thead>
+        <tr>
+            @for (column of tableColumns; track $index) {
+            <th [class.sortable-header]="column.sortable" (click)="column.sortable ? handleSort(column) : null">
+                {{ column.label | titlecase }}
+                @if (sortField === column.key) {
+                <span class="sort-indicator">
+                    {{ sortDirection === 'asc' ? '▲' : '▼' }}
+                </span>
+                }
+            </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @for (monkey of monkeys; track monkey.id) {
+        <tr class="clickable-row" [routerLink]="['/monkeys', monkey.id]">
+            <td>
+                <img [src]="monkey.image" [alt]="monkey.name" class="monkey-image" />
+            </td>
+            <td>{{monkey.id}}</td>
+            <td>{{ monkey.name }}</td>
+            <td>{{ monkey.species?.name || 'Unknown' }}</td>
+            <td>{{ monkey.country }}</td>
+            <td>{{ monkey.gender }}</td>
+            <td>{{ monkey.weight }}</td>
+            <td>{{ monkey.height }}</td>
+            <td>{{ monkey.year }}</td>
+            <td>{{ monkey.likes }}</td>
+            <td>{{ monkey.personality_trait }}</td>
+        </tr>
+        }
+    </tbody>
+</table>

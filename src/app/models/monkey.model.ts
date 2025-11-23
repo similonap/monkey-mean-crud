@@ -12,6 +12,7 @@ export interface Species {
   diet: string[];
   endangermentStatus: string;
   groupTolerance: SpeciesGroupTolerance;
+  monkeys?: Monkey[];
 }
 
 export interface Monkey {

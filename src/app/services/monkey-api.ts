@@ -41,6 +41,10 @@ export class MonkeyApiService {
     return this.http.get<Species>(`${this.apiBaseUrl}/species/${id}`);
   }
 
+  getMonkeysBySpeciesId(speciesId: number): Observable<Monkey[]> {
+    return this.http.get<Monkey[]>(`${this.apiBaseUrl}/species/${speciesId}/monkeys`);
+  }
+
   createSpecies(payload: CreateSpeciesPayload): Observable<Species> {
     return this.http.post<Species>(`${this.apiBaseUrl}/species`, payload);
   }

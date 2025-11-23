@@ -2,10 +2,11 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Species } from '../../models/monkey.model';
 import { MonkeyApiService } from '../../services/monkey-api';
+import { MonkeyList } from "../../components/monkey-list/monkey-list";
 
 @Component({
   selector: 'app-species-detail-page',
-  imports: [],
+  imports: [MonkeyList],
   templateUrl: './species-detail-page.html',
   styleUrl: './species-detail-page.css',
 })
@@ -30,7 +31,17 @@ export class SpeciesDetailPage implements OnInit {
     this.monkeyApi.getSpeciesById(+id).subscribe({
       next: (data: Species) => {
         this.species.set(data);
-        this.loading.set(false);
+
+        this.monkeyApi.getMonkeysBySpeciesId(data.id).subscribe({
+          next: (monkeys) => {
+            this.species.update(s => s ? { ...s, monkeys } : s);
+            this.loading.set(false);
+          },
+          error: (err) => {
+            console.error('Error loading monkeys for species:', err);
+          }
+        });
+
       },
       error: (err) => {
         console.error('Error loading species details', err);
