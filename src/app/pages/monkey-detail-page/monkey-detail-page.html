@@ -7,6 +7,10 @@
     <div class="detail-header">
       <button class="back-button" (click)="goBack()">← Back to List</button>
       <h1>{{ monkey()?.name }}</h1>
+      <div class="header-actions">
+        <a class="action-button" [routerLink]="['/monkeys', monkey()?.id, 'edit']">Edit</a>
+        <button type="button" class="action-button danger" (click)="deleteMonkey()">Delete</button>
+      </div>
     </div>
 
     <div class="detail-content">
@@ -63,7 +67,6 @@
         </div>
       </div>
 
-      <button class="delete-button" (click)="deleteMonkey()">Delete Monkey</button>
     </div>
   }
 </div>
