@@ -1,6 +1,4 @@
-import { Species } from "src/species/species.schema";
-import { Monkey } from "../monkey.schema";
-import { ApiProperty, OmitType, PartialType, PickType } from "@nestjs/swagger";
+import { ApiProperty, PartialType } from "@nestjs/swagger";
 
 export class CreateMonkeyDTO {
     @ApiProperty()
