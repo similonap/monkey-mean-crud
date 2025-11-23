@@ -71,6 +71,9 @@
         @if (form.controls.image.invalid && (form.controls.image.touched || form.controls.image.dirty)) {
           <div class="field-error">Image URL is required</div>
         }
+        @if (form.controls.image.errors?.['imageNotFound'] && (form.controls.image.touched || form.controls.image.dirty)) {
+          <div class="field-error">We couldn't load an image from that address.</div>
+        }
         <div class="image-preview full-width">
           <div class="image-preview-header">
             <span>Preview</span>

@@ -21,8 +21,7 @@ export class MonkeysService {
                 { country: regex },
                 { personality_trait: regex }
             ]
-        }
-        ).populate("species").sort({ [sortField]: sortOrder === 'asc' ? 1 : -1 }).lean().exec();
+        }).populate("species").sort({ [sortField]: sortOrder === 'asc' ? 1 : -1 }).lean().exec();
     }
 
     async findOne(id: number): Promise<Monkey | null> {

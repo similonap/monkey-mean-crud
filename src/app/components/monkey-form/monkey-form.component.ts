@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import {
+  AsyncValidatorFn,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -46,6 +48,46 @@ export class MonkeyFormComponent implements OnChanges {
   @Output() submitForm = new EventEmitter<MonkeyFormValue>();
   @Output() cancel = new EventEmitter<void>();
 
+  private readonly imageExistsValidator: AsyncValidatorFn = (control) => {
+    const value = (control.value ?? '').trim();
+
+    if (!value) {
+      return Promise.resolve(null);
+    }
+
+    if (typeof Image === 'undefined') {
+      return Promise.resolve(null);
+    }
+
+    return new Promise<ValidationErrors | null>((resolve) => {
+      const preview = new Image();
+      preview.decoding = 'async';
+      preview.referrerPolicy = 'no-referrer';
+      let settled = false;
+
+      const finish = (errors: ValidationErrors | null) => {
+        if (!settled) {
+          settled = true;
+          resolve(errors);
+        }
+      };
+
+      const timeout = setTimeout(() => finish({ imageNotFound: true }), 4000);
+
+      preview.onload = () => {
+        clearTimeout(timeout);
+        finish(null);
+      };
+
+      preview.onerror = () => {
+        clearTimeout(timeout);
+        finish({ imageNotFound: true });
+      };
+
+      preview.src = value;
+    });
+  };
+
   readonly form = new FormGroup({
     name: new FormControl<string>('', {
       nonNullable: true,
@@ -81,6 +123,8 @@ export class MonkeyFormComponent implements OnChanges {
     image: new FormControl<string>('', {
       nonNullable: true,
       validators: [Validators.required],
+      asyncValidators: [this.imageExistsValidator],
+      updateOn: 'blur',
     }),
     personality_trait: new FormControl<string>('', {
       nonNullable: true,
