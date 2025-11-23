@@ -12,6 +12,11 @@
   gap: 1rem;
 }
 
+.toolbar-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
 .search-input {
   flex: 1;
   padding: 10px 14px;
@@ -32,6 +37,20 @@
 
 .species-link:hover {
   background-color: #166173;
+}
+
+.primary-link {
+  text-decoration: none;
+  background-color: #2563eb;
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.primary-link:hover {
+  background-color: #1d4ed8;
 }
 
 h1 {
